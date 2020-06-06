@@ -1,11 +1,11 @@
-import * as AWS, { S3, Request, AWSError } from 'aws-sdk';
+import { S3, Request, AWSError, config } from 'aws-sdk';
 
 export interface S3Object {
     key: string;
     url: string;
 }
 
-export class UploadsService {
+export class S3UploadService {
     private bucket: string;
 
     constructor() {
@@ -32,7 +32,7 @@ export class UploadsService {
 
         this.bucket = S3_BUCKET;
 
-        AWS.config.update({
+        config.update({
             accessKeyId: S3_ACCESS_KEY_ID,
             secretAccessKey: S3_SECRET_ACCESS_KEY,
             region: `${S3_AWS_REGION}`,
