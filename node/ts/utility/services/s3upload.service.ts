@@ -1,20 +1,18 @@
 import { S3, Request, AWSError, config } from 'aws-sdk';
-
-export interface S3Object {
-    key: string;
-    url: string;
-}
+import { S3Object, S3UploadServiceOptions } from '../interfaces';
+import { ServiceDisabledError } from '../errors';
 
 export class S3UploadService {
+    private s3UploadEnabled: boolean = true;
     private bucket: string;
 
-    constructor() {
-        const { 
-            S3_ACCESS_KEY_ID, 
-            S3_SECRET_ACCESS_KEY, 
-            S3_AWS_REGION, 
-            S3_BUCKET 
-         } = process.env;
+    constructor(options?: S3UploadServiceOptions) {
+        const {
+            S3_ACCESS_KEY_ID,
+            S3_SECRET_ACCESS_KEY,
+            S3_AWS_REGION,
+            S3_BUCKET
+        } = process.env;
 
         if (
             !S3_ACCESS_KEY_ID ||
@@ -30,16 +28,27 @@ export class S3UploadService {
             process.exit(0);
         }
 
-        this.bucket = S3_BUCKET;
+        if (options) {
+            this.s3UploadEnabled = options.s3UploadEnabled;
+        }
 
-        config.update({
-            accessKeyId: S3_ACCESS_KEY_ID,
-            secretAccessKey: S3_SECRET_ACCESS_KEY,
-            region: `${S3_AWS_REGION}`,
-        });
+        if (this.s3UploadEnabled) {
+            this.bucket = S3_BUCKET;
+
+            config.update({
+                accessKeyId: S3_ACCESS_KEY_ID,
+                secretAccessKey: S3_SECRET_ACCESS_KEY,
+                region: `${S3_AWS_REGION}`,
+            });
+        }
     }
 
-    public async uploadImage(base64: string): Promise<S3Object> {
+    public async uploadImage(base64: string): Promise<S3Object | null> {
+        if (!this.s3UploadEnabled) {
+            console.log("S3 upload is disabled by configuration.");
+            throw new ServiceDisabledError("S3UploadService");
+        }
+
         const base64Buffer: Buffer = Buffer.from(
             base64.replace(/^data:image\/\w+;base64,/, ''),
             'base64'
