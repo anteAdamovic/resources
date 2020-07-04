@@ -3,7 +3,7 @@ import { SlackServiceOptions } from '../interfaces';
 import { ServiceDisabledError } from '../errors';
 
 export class SlackService {
-    private slackWebhook: string | null;
+    private slackWebhook: string;
     private slackNotificationsEnabled: boolean = true;
 
     constructor(options?: SlackServiceOptions) {
@@ -28,20 +28,23 @@ export class SlackService {
         }
 
         return new Promise((resolve, reject) => {
-            request.post({
-                url: this.slackWebhook,
-                body: {
-                    text
+            request.post(
+                this.slackWebhook,
+                {
+                    body: {
+                        text
+                    },
+                    json: true
                 },
-                json: true
-            }, (err, res, body) => {
-                if (err) {
-                    console.log(err);
-                    reject(false);
-                }
+                (err, res, body) => {
+                    if (err) {
+                        console.log(err);
+                        reject(false);
+                    }
 
-                resolve(true);
-            });
+                    resolve(true);
+                }
+            );
         });
     }
 }

@@ -6,7 +6,7 @@ export class ValidationService {
 
     private customValidations: Map<string, Function>;
 
-    constructor(validations: Map<string, Function> = null) {
+    constructor(validations?: Map<string, Function>) {
         this.customValidations = new Map<string, Function>();
 
         if (validations) {
