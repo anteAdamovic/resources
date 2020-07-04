@@ -1,6 +1,6 @@
-import { Middleware } from "../interfaces";
+import { Middleware, CustomError } from "../interfaces";
 import { Response, Request, NextFunction, ErrorRequestHandler, Handler } from "express";
-import { BadRequestError, ForbiddenError, NotFoundError, ServerError, UnauthorizedError, ValidationError } from "../errors";
+import { NotFoundError, InternalServerError } from "../errors";
 
 export class ErrorMiddleware implements Middleware {
 
@@ -15,7 +15,7 @@ export class ErrorMiddleware implements Middleware {
     }
 
     public static registerHandler(): ErrorRequestHandler {
-        return async (error: Error | BadRequestError | ForbiddenError | NotFoundError | ServerError | UnauthorizedError | ValidationError, request: Request, response: Response, next: NextFunction) => {
+        return async (error: Error | CustomError, request: Request, response: Response, next: NextFunction) => {
             const ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
 
             if ((<any>error).status) {
@@ -32,7 +32,7 @@ export class ErrorMiddleware implements Middleware {
             } else {
                 console.log(error.message);
 
-                const err = new ServerError();
+                const err = new InternalServerError();
                 response.status(err.status).send({ message: err.message });
 
                 console.log(`${request.headers.host}${request.url} ${request.method} - Status: 0 (${ip}) - ${err.message}`);

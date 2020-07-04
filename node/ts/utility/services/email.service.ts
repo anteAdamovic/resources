@@ -1,19 +1,32 @@
 import { createTransport, SendMailOptions } from 'nodemailer';
-import { readFileSync } from "fs";
+import { EmailServiceOptions } from '../interfaces';
 
 export class EmailService {
+    private emailAddress: string;
+    private emailPassword: string;
+
+    constructor(options?: EmailServiceOptions) {
+        if (options.emailAddress) {
+            this.emailAddress = options.emailAddress;
+        } else {
+            this.emailAddress = process.env.NODEMAILER_EMAIL_ADDRESS;
+        }
+
+        if (options.emailPassword) {
+            this.emailPassword = options.emailPassword;
+        } else {
+            this.emailPassword = process.env.NODEMAILER_EMAIL_PASSWORD;
+        }
+    }
 
     public async sendEmail(to: string, from: string, subject: string, text: string, html: string): Promise<boolean> {
 
-        const address = process.env.NODEMAILER_EMAIL_ADDRESS;
-        const password = process.env.NODEMAILER_EMAIL_PASSWORD;
-
-        if (!address) {
+        if (!this.emailAddress) {
             console.log('Environment variable NODEMAILER_EMAIL_ADDRESS missing!');
             return false;
         }
 
-        if (!password) {
+        if (!this.emailPassword) {
             console.log('Environment variable NODEMAILER_EMAIL_PASSWORD missing!');
             return false;
         }
@@ -25,8 +38,8 @@ export class EmailService {
                 port: 587,
                 secure: false,
                 auth: {
-                    user: address,
-                    pass: password
+                    user: this.emailAddress,
+                    pass: this.emailPassword
                 }
             });
             

@@ -2,7 +2,6 @@ import { Response, Request, NextFunction, Handler } from "express";
 import { Middleware } from "../interfaces";
 import { LogLevel } from "../enums";
 import { UnauthorizedError, ForbiddenError, InternalServerError } from "../errors";
-import Container from "typedi";
 import * as jwt from "jsonwebtoken";
 
 export class AuthenticationMiddleware implements Middleware {

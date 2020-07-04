@@ -1,12 +1,17 @@
-export class UnauthorizedError extends Error {
+import { CustomError } from "../interfaces";
+
+export class UnauthorizedError implements CustomError {
+    private _name: string = "UnauthorizedError";
     private _message: string = "You must provide a valid authentication token!";
 
     constructor(message?: string) {
-        super(message);
-
         if (message) {
             this._message = message;
         }
+    }
+
+    public get name(): string {
+        return this._name;
     }
     
     public get status(): number {

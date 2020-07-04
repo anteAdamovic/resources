@@ -7,14 +7,16 @@ export class SlackService {
     private slackNotificationsEnabled: boolean = true;
 
     constructor(options?: SlackServiceOptions) {
-        if (process.env.SLACK_WEBHOOK_URL) {
+        if (options && options.slackWebhook) {
+            this.slackWebhook = options.slackWebhook;
+        } else if (process.env.SLACK_WEBHOOK_URL) {
             this.slackWebhook = process.env.SLACK_WEBHOOK_URL;
         } else {
             console.log("SLACK_WEBHOOK_URL environment variable not set!!!");
             process.exit(0);
         }
 
-        if (options) {
+        if (options && options.slackNotificationsEnabled) {
             this.slackNotificationsEnabled = options.slackNotificationsEnabled;
         }
     }

@@ -1,4 +1,4 @@
-import { CustomError } from "../interfaces/custom-error.interface";
+import { CustomError } from "../interfaces";
 
 export class UnavailableError implements CustomError {
   private _name: string = "UnavailableError";
