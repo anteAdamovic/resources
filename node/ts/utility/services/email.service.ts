@@ -2,19 +2,19 @@ import { createTransport, SendMailOptions } from 'nodemailer';
 import { EmailServiceOptions } from '../interfaces';
 
 export class EmailService {
-    private emailAddress: string;
-    private emailPassword: string;
+    private emailAddress!: string;
+    private emailPassword!: string;
 
     constructor(options?: EmailServiceOptions) {
-        if (options.emailAddress) {
+        if (options && options.emailAddress) {
             this.emailAddress = options.emailAddress;
-        } else {
+        } else if (process.env.NODEMAILER_EMAIL_ADDRESS) {
             this.emailAddress = process.env.NODEMAILER_EMAIL_ADDRESS;
         }
 
-        if (options.emailPassword) {
+        if (options && options.emailPassword) {
             this.emailPassword = options.emailPassword;
-        } else {
+        } else if (process.env.NODEMAILER_EMAIL_PASSWORD) {
             this.emailPassword = process.env.NODEMAILER_EMAIL_PASSWORD;
         }
     }
