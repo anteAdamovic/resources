@@ -8,7 +8,7 @@ export class LoggerService {
       if (options && options.logLevel) {
         this.logLevel = options.logLevel;
       } else {
-        this.logLevel = process.env.LOGGER_LOG_LEVEL | LogLevel.DEBUG;
+        this.logLevel = process.env.LOGGER_LOG_LEVEL ? process.env.LOGGER_LOG_LEVEL : LogLevel.DEBUG;
       }
     }
 
