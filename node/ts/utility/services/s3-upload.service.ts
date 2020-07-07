@@ -4,7 +4,7 @@ import { ServiceDisabledError } from '../errors';
 
 export class S3UploadService {
     private s3UploadEnabled: boolean = true;
-    private bucket: string;
+    private bucket!: string;
 
     constructor(options?: S3UploadServiceOptions) {
         const {
