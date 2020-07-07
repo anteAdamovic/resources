@@ -20,8 +20,8 @@ export class ServerRequest {
         if (request.query) {
             this.query = request.query;
         }
-        if (request.user) {
-            this.user = request.user;
+        if (response.locals.user) {
+            this.user = response.locals.user;
         }
     }
 

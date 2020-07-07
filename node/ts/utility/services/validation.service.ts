@@ -28,9 +28,16 @@ export class ValidationService {
 
     public validate(name: string, args: any): boolean {
         if (!this.customValidations.has(name)) {
-            throw new Error("Validation with that name doesn't exist!");
+            throw new Error(`Validation with that name (${name}) doesn't exist!`);
         } else {
-            return this.customValidations.get(name)(args);
+            const validation = this.customValidations.get(name);
+            if (validation) {
+                return validation(args);
+            } else {
+                throw new Error(`Validation can not be executed (${name})!`);
+            }
+
+
         }
     }
 
