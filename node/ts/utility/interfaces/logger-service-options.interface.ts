@@ -1,5 +1,5 @@
 import { LogLevel } from '../enums';
 
-export class LoggerServiceOptions {
+export interface LoggerServiceOptions {
   logLevel: LogLevel;
 }

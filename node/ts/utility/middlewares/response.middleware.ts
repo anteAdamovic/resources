@@ -29,11 +29,11 @@ export class ResponseMiddleware implements Middleware {
                 }
 
                 const ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
-                loggerService.serverLog(`${request.headers.host}${request.url} ${request.method} - Status: ${customResponse.getStatus()} (${ip})`);
+                loggerService.info(`${request.headers.host}${request.url} ${request.method} - Status: ${customResponse.getStatus()} (${ip})`);
                 return;
             } else if (customResponse instanceof RedirectResponse) {
                 const ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
-                loggerService.serverLog(`${request.headers.host}${request.url} ${request.method} - Status: REDIRECT (${ip})`);
+                loggerService.info(`${request.headers.host}${request.url} ${request.method} - Status: REDIRECT (${ip})`);
                 response.redirect(customResponse.getUrl());
                 return;
             } else {

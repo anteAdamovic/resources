@@ -5,7 +5,7 @@ export class LoggerService {
     private logLevel: LogLevel;
     
     constructor(options?: LoggerServiceOptions) {
-      if (options.logLevel) {
+      if (options && options.logLevel) {
         this.logLevel = options.logLevel;
       } else {
         this.logLevel = process.env.LOGGER_LOG_LEVEL | LogLevel.DEBUG;
