@@ -17,9 +17,9 @@ export class ValidationService {
     }
 
     // TODO: Add validation of a function handler to be of type
-    //       (args: any) => boolean (interface) and update types
+    // (args: any) => boolean (interface) and update types
     public addCustomValidation(name: string, validationHandler: Function) {
-        if(this.customValidations.has(name)) {
+        if (this.customValidations.has(name)) {
             throw new Error("Validation with that name already exists!");
         } else {
             this.customValidations.set(name, validationHandler);
@@ -36,8 +36,6 @@ export class ValidationService {
             } else {
                 throw new Error(`Validation can not be executed (${name})!`);
             }
-
-
         }
     }
 
@@ -47,5 +45,9 @@ export class ValidationService {
 
     public validatePassword(password: string): boolean {
         return this.PASSWORD_REGEX_1.test(password) && this.PASSWORD_REGEX_2.test(password) && this.PASSWORD_REGEX_3.test(password);
+    }
+
+    public validateRequestBody(body: any, param: string, type?: string): boolean {
+        return body[param] !== null && body[param] !== undefined && (type ? typeof body[param] == type : true);
     }
 }
