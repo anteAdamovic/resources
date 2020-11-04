@@ -47,7 +47,11 @@ export class ValidationService {
         return this.PASSWORD_REGEX_1.test(password) && this.PASSWORD_REGEX_2.test(password) && this.PASSWORD_REGEX_3.test(password);
     }
 
-    public validateRequestBody(body: any, param: string, type?: string): boolean {
-        return body[param] !== null && body[param] !== undefined && (type ? typeof body[param] == type : true);
+    public validateRequestBody(body: any, param: string, type?: string, required: boolean = false): boolean {
+        return (required == true ? (body[param] !== null && body[param] !== undefined) : true) && (type ? typeof body[param] == type : true);
+    }
+
+    public validateRequestQuery(query: any, param: string, type?: string, required: boolean = false): boolean {
+        return (required == true ? (query[param] !== null && query[param] !== undefined) : true) && (type ? typeof query[param] == type : true);
     }
 }
