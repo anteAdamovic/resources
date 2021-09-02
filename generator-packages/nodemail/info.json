@@ -1,0 +1,37 @@
+{
+    "name": "nodemail",
+    "description": "Wrapper around nodemailer, provides ability to send emails using a gmail account.",
+    "category": "email",
+    "dependencies": [
+        "nodemailer"
+    ],
+    "devDependencies": [
+        "@types/nodemailer"
+    ],
+    "env": [
+        {
+            "name": "NODEMAIL_EMAIL_ADDRESS",
+            "type": "string",
+            "description": "Email address from which email will be sent.",
+            "secret": false
+        },
+        {
+            "name": "NODEMAIL_EMAIL_PASSWORD",
+            "type": "string",
+            "description": "Email password from which email will be sent.",
+            "secret": true
+        }
+    ],
+    "files": [
+        {
+            "name": "nodemail.service.ts",
+            "src": "nodemail.service.ts",
+            "location": "utility/services"
+        },
+        {
+            "name": "nodemail-service-options.interface.ts",
+            "src": "nodemail-service-options.interface.ts",
+            "location": "utility/interfaces"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "name": "generator-packages",
+    "packages": [
+        {
+            "name": "nodemail",
+            "description": "Wrapper around nodemailer, provides ability to send emails using a gmail account.",
+            "category": "email",
+            "location": "nodemail",
+            "url": "https://nodemailer.com/about/"
+        }
+    ]
+}
